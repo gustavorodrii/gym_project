@@ -6,19 +6,7 @@ import 'hive_database.dart';
 class WorkoutData extends ChangeNotifier {
   final db = HiveDataBase();
 
-  List<Workout> workoutList = [
-    Workout(
-      name: "Upper Body",
-      exercises: [
-        Exercise(
-          name: "Biceps Curls",
-          weight: "10",
-          reps: "10",
-          sets: "3",
-        ),
-      ],
-    )
-  ];
+  List<Workout> workoutList = [];
 
   void initializeWorkoutList() {
     if (db.previousDataExists()) {
@@ -26,6 +14,11 @@ class WorkoutData extends ChangeNotifier {
     } else {
       db.saveToDataBase(workoutList);
     }
+  }
+
+  void deleteWorkout(int index) {
+    workoutList.removeAt(index);
+    notifyListeners();
   }
 
   List<Workout> getWorkoutList() {

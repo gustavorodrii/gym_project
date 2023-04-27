@@ -1,4 +1,8 @@
+import 'package:hive/hive.dart';
+
 String todaysDateYYYYMMDD() {
+  Hive.openBox("workout_datebase1");
+
   var dateTimeObject = DateTime.now();
 
   String year = dateTimeObject.year.toString();

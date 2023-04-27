@@ -4,9 +4,11 @@ import 'package:gym_project/pages/home_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
+late Box box;
+
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox("workout_datebase1");
+  box = await Hive.openBox("workout_database1");
   runApp(const MyApp());
 }
 
