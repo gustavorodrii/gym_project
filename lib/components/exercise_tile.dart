@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ExerciseTile extends StatelessWidget {
   final String exerciseName;
-  final String weight;
   final String reps;
   final String sets;
   final bool isCompleted;
@@ -11,7 +10,6 @@ class ExerciseTile extends StatelessWidget {
   ExerciseTile({
     super.key,
     required this.exerciseName,
-    required this.weight,
     required this.reps,
     required this.sets,
     required this.isCompleted,
@@ -21,31 +19,47 @@ class ExerciseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
+      color: Colors.grey[100],
       child: ListTile(
         title: Text(
           exerciseName,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.grey[900],
+          ),
         ),
         subtitle: Row(
           children: [
-            Chip(
-              label: Text(
-                "${weight} kg",
+            if (reps != null && reps.isNotEmpty)
+              Chip(
+                label: Text(
+                  "$reps repetições",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[900],
+                  ),
+                ),
               ),
+            const SizedBox(
+              width: 10,
             ),
-            Chip(
-              label: Text(
-                "${reps} repetições",
+            if (sets != null && sets.isNotEmpty)
+              Chip(
+                label: Text(
+                  "$sets séries",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[900],
+                  ),
+                ),
               ),
-            ),
-            Chip(
-              label: Text(
-                "${sets} séries",
-              ),
-            ),
           ],
         ),
         trailing: Checkbox(
+          activeColor: Colors.grey[900],
           value: isCompleted,
           onChanged: (value) => onCheckBoxChanged(value),
         ),

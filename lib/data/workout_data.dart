@@ -38,14 +38,13 @@ class WorkoutData extends ChangeNotifier {
     db.saveToDataBase(workoutList);
   }
 
-  void addExercise(String workoutName, String exerciseName, String weight,
-      String reps, String sets) {
+  void addExercise(
+      String workoutName, String exerciseName, String reps, String sets) {
     Workout relevantWorkout = getRelevantWorkout(workoutName);
 
     relevantWorkout.exercises.add(
       Exercise(
         name: exerciseName,
-        weight: weight,
         reps: reps,
         sets: sets,
       ),

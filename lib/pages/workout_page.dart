@@ -18,7 +18,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   final exerciseNameController = TextEditingController();
-  final weightController = TextEditingController();
   final repsController = TextEditingController();
   final setsController = TextEditingController();
 
@@ -26,32 +25,58 @@ class _WorkoutPageState extends State<WorkoutPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Adicione um novo exercicio"),
+        title: Text(
+          "Adicione um novo exercício",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 22, color: Colors.grey[900]),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            TextFormField(
               controller: exerciseNameController,
-            ),
-            TextField(
-              controller: weightController,
+              decoration: InputDecoration(hintText: 'Nome do exercício'),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este campo é obrigatório';
+                }
+                return null;
+              },
             ),
             TextField(
               controller: repsController,
+              decoration: InputDecoration(hintText: 'Repetições do exercício'),
             ),
             TextField(
               controller: setsController,
+              decoration: InputDecoration(hintText: 'Séries do exercício'),
             ),
           ],
         ),
         actions: [
-          MaterialButton(
-            onPressed: save,
-            child: Text("Salvar"),
-          ),
-          MaterialButton(
-            onPressed: cancel,
-            child: Text("Cancelar"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                onPressed: () {
+                  if (exerciseNameController.text.isEmpty) {
+                    return;
+                  }
+                  save();
+                },
+                child: Text(
+                  "Salvar",
+                  style: TextStyle(fontSize: 16, color: Colors.grey[900]),
+                ),
+              ),
+              MaterialButton(
+                onPressed: cancel,
+                child: Text(
+                  "Cancelar",
+                  style: TextStyle(fontSize: 16, color: Colors.grey[900]),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -60,14 +85,12 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void save() {
     String newExerciseName = exerciseNameController.text;
-    String weight = weightController.text;
     String reps = repsController.text;
     String sets = setsController.text;
 
     Provider.of<WorkoutData>(context, listen: false).addExercise(
       widget.workoutName,
       newExerciseName,
-      weight,
       reps,
       sets,
     );
@@ -82,7 +105,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void clear() {
     exerciseNameController.clear();
-    weightController.clear();
     repsController.clear();
     setsController.clear();
   }
@@ -92,41 +114,50 @@ class _WorkoutPageState extends State<WorkoutPage> {
     return Consumer<WorkoutData>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
-          title: Text(widget.workoutName),
+          centerTitle: true,
+          backgroundColor: Colors.grey[900],
+          title: Text(
+            widget.workoutName.toUpperCase(),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
+          elevation: 2,
+          backgroundColor: Colors.grey[900],
           onPressed: createNewExercise,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add, size: 30),
         ),
-        body: ListView.builder(
-          itemCount: value.numberOfExercisesInWorkout(widget.workoutName),
-          itemBuilder: (context, index) => ExerciseTile(
-            exerciseName: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .name,
-            weight: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .weight,
-            reps: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .reps,
-            sets: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .sets,
-            isCompleted: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .isCompleted,
-            onCheckBoxChanged: (val) => onCheckBoxChanged(
-              widget.workoutName,
-              value
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            itemCount: value.numberOfExercisesInWorkout(widget.workoutName),
+            itemBuilder: (context, index) => ExerciseTile(
+              exerciseName: value
                   .getRelevantWorkout(widget.workoutName)
                   .exercises[index]
                   .name,
+              reps: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .reps,
+              sets: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .sets,
+              isCompleted: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .isCompleted,
+              onCheckBoxChanged: (val) => onCheckBoxChanged(
+                widget.workoutName,
+                value
+                    .getRelevantWorkout(widget.workoutName)
+                    .exercises[index]
+                    .name,
+              ),
             ),
           ),
         ),

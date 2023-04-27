@@ -46,10 +46,9 @@ class HiveDataBase {
         exerciseInEachWorkout.add(
           Exercise(
             name: exerciseDetails[i][j][0],
-            weight: exerciseDetails[i][j][1],
-            reps: exerciseDetails[i][j][2],
-            sets: exerciseDetails[i][j][3],
-            isCompleted: exerciseDetails[i][j][4] == "true" ? true : false,
+            reps: exerciseDetails[i][j][1],
+            sets: exerciseDetails[i][j][2],
+            isCompleted: exerciseDetails[i][j][3] == "true" ? true : false,
           ),
         );
       }
@@ -104,7 +103,6 @@ class HiveDataBase {
         individualExercise.addAll(
           [
             exercisesInWorkout[j].name,
-            exercisesInWorkout[j].weight,
             exercisesInWorkout[j].reps,
             exercisesInWorkout[j].sets,
             exercisesInWorkout[j].isCompleted.toString(),
