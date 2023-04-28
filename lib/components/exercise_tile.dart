@@ -24,7 +24,7 @@ class ExerciseTile extends StatelessWidget {
         title: Text(
           exerciseName,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 19,
             fontWeight: FontWeight.w700,
             color: Colors.grey[900],
           ),

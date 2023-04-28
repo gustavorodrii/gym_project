@@ -19,6 +19,7 @@ class WorkoutData extends ChangeNotifier {
   void deleteWorkout(int index) {
     workoutList.removeAt(index);
     notifyListeners();
+    db.saveToDataBase(workoutList);
   }
 
   List<Workout> getWorkoutList() {

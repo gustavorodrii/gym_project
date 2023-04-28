@@ -33,23 +33,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextFormField(
+            TextField(
               controller: exerciseNameController,
-              decoration: InputDecoration(hintText: 'Nome do exercício'),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Este campo é obrigatório';
-                }
-                return null;
-              },
+              decoration: const InputDecoration(hintText: 'Nome do exercício'),
             ),
             TextField(
               controller: repsController,
-              decoration: InputDecoration(hintText: 'Repetições do exercício'),
+              decoration:
+                  const InputDecoration(hintText: 'Repetições do exercício'),
             ),
             TextField(
               controller: setsController,
-              decoration: InputDecoration(hintText: 'Séries do exercício'),
+              decoration:
+                  const InputDecoration(hintText: 'Séries do exercício'),
             ),
           ],
         ),
@@ -60,6 +56,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
               MaterialButton(
                 onPressed: () {
                   if (exerciseNameController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Por favor, preencha o nome do exercício',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
                     return;
                   }
                   save();
@@ -109,6 +118,17 @@ class _WorkoutPageState extends State<WorkoutPage> {
     setsController.clear();
   }
 
+  void clearCheckboxes(String workoutName) {
+    Provider.of<WorkoutData>(context, listen: false)
+        .getRelevantWorkout(workoutName)
+        .exercises
+        .forEach((exercise) {
+      if (exercise.isCompleted) {
+        onCheckBoxChanged(workoutName, exercise.name);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
@@ -118,17 +138,33 @@ class _WorkoutPageState extends State<WorkoutPage> {
           backgroundColor: Colors.grey[900],
           title: Text(
             widget.workoutName.toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                onPressed: () {
+                  clearCheckboxes(widget.workoutName);
+                },
+                icon: const Icon(
+                  Icons.cleaning_services_outlined,
+                ),
+              ),
+            ),
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
-          elevation: 2,
-          backgroundColor: Colors.grey[900],
-          onPressed: createNewExercise,
-          child: const Icon(Icons.add, size: 30),
+        floatingActionButton: Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: FloatingActionButton(
+            elevation: 2,
+            backgroundColor: Colors.grey[900],
+            onPressed: createNewExercise,
+            child: const Icon(Icons.add, size: 30),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

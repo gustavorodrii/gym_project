@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+        contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
         title: Center(
           child: Text(
             "Crie um novo treino",
@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.w700,
             ),
           ),
+          backgroundColor: Colors.redAccent,
         ),
       );
       return;
@@ -120,11 +121,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          elevation: 2,
-          backgroundColor: Colors.grey[900],
-          onPressed: createNewWorkout,
-          child: const Icon(Icons.add, size: 30),
+        floatingActionButton: Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: FloatingActionButton(
+            elevation: 2,
+            backgroundColor: Colors.grey[900],
+            onPressed: createNewWorkout,
+            child: const Icon(Icons.add, size: 30),
+          ),
         ),
         body: Container(
           color: Colors.grey[100],
@@ -153,7 +157,6 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  width: double.infinity,
                   height: 100,
                   color: Colors.grey[900],
                   child: Center(
