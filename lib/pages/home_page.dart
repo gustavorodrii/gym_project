@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.grey[900],
           elevation: 4,
           title: const Text(
-            'Treinos',
+            'Meus treinos',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,

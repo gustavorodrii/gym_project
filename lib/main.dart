@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/data/workout_data.dart';
-import 'package:gym_project/pages/home_page.dart';
 import 'package:gym_project/pages/login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
